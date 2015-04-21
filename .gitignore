@@ -1,0 +1,10 @@
+.DS_Store
+.vagrant
+# ignore test vagrant file
+#Vagrantfile
+# ignore any locally created box files
+*.box
+# ignore test directories
+test/
+
+

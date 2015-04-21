@@ -1,0 +1,33 @@
+#
+# TODO: update dist_name, dist_vers, dist_arch
+#       as well as, ATLAS_USER_NAME if it isn't
+#       already set.
+#
+dist_name=""
+dist_vers=""
+dist_arch="x86_64"
+
+# what type of build to perform:
+#
+#   'remote'
+#       run 'packer push --create <template>' to send
+#       the template up to Atlas for building.
+#
+#   'local'
+# - remote -- 'packer push --create <template>'
+# - local -- 'packer build' resulting box is uploaded to atlas
+#
+build_type="remote"
+
+#
+# TODO: update atlas user name, unless it is
+#       being set in something like .bashrc
+#
+: ${ATLAS_USER_NAME:=""}
+#
+# cooresponds to what displays in
+# https://atlas.hashicorp.com/$ATLAS_UESR_NAME/vagran
+#
+ATLAS_BOX_NAME="${dist_name}-${dist_vers}-${dist_arch}"
+
+# END
