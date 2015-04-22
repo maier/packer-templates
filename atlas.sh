@@ -26,7 +26,7 @@ if [ ! -f $template_name ]; then
 		if [ -f skeltempl.json ]; then
 			mv skeltempl.json $template_name
 		else
-			touch $template_name
+			curl -sSo $template_name "https://raw.githubusercontent.com/maier/packer-templates/master/skel/skeltempl.json"
 		fi
 		exit 2
 fi
