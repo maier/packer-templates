@@ -4,20 +4,27 @@
 * base install
 * has VBoxGuestAdditions
 * epel, gcc, kernel-devel, and perl added (with their respective deps)
+* [Packer template](https://github.com/maier/packer-templates/)
 
 ## Use
 
-Create a `Vagrantfile`:
-
 ```
+#
+# Create initial Vagrantfile
+#
+
 vagrant init maier/centos-6.6-x86_64
-```
 
-Edit the Vagrantfile to customize for your needs.
+#
+# Customize
+#
 
-Start the box:
+vi Vagrantfile
 
-```
+#
+# Start the box
+#
+
 vagrant up
 ```
 
