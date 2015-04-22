@@ -25,8 +25,10 @@ if [ ! -f $template_name ]; then
 		echo "Creating skeleton, edit and run $0 again."
 		if [ -f skeltempl.json ]; then
 			mv skeltempl.json $template_name
+            [ $? -eq 0 ] || { echo "Unable to 'mv skeltempl.json $template_name'."; exit 3; }
 		else
 			curl -sSo $template_name "https://raw.githubusercontent.com/maier/packer-templates/master/skel/skeltempl.json"
+            [ $? -eq 0 ] || { echo "Unable retrieve 'skeltempl.json' from github repository."; exit 3; }
 		fi
 		exit 2
 fi
