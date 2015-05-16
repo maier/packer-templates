@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-set -eux
+#set -eux
 
 function die_var_unset {
 	echo "ERROR: Variable '$1' is required to be set. Please edit $0 and set."
@@ -16,7 +16,7 @@ source sh_vars
 [ -z "$dist_arch" ] && die_var_unset "dist_arch"
 [ -z "$build_type" ] && die_var_unset "build_type"
 [ -z "$ATLAS_USER_NAME" ] && die_var_unset "ATLAS_USER_NAME"
-[ -z "$ATLAS_BOX_NAME" ] && die_var_unset "ATLAS_BOX_NAME"
+[ -z "$ATLAS_BOX_NAME" ] && ATLAS_BOX_NAME="${dist_name}-${dist_vers}-${dist_arch}"
 
 template_name="${ATLAS_BOX_NAME}.json"
 
