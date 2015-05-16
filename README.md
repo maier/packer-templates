@@ -38,6 +38,8 @@ Note, this is a **local** build and will **intentionally** fail on the *atlas po
 $ packer build alpine-3.1.3-x86_64.json
 ```
 
+> Note, to debug the VM boot process change *headless* to *false* in the template. Optionally, run `PACKER_LOG=1 packer build alpine-3.1.3-x86_64.json` to see output from Packer.
+
 #### Deploy to Atlas
 
 This will act accordingly to how the variables were set in `sh_vars`.
