@@ -2,7 +2,7 @@
 
 * x86_64
 * base install
-* has VBoxGuestAdditions
+* has VBoxGuestAdditions v4.3.28
 * [Packer template](https://github.com/maier/packer-templates/)
 
 ## Use
