@@ -20,7 +20,7 @@ Using `alpine3` as an example:
 5. Edit `sh_vars`
 	6. Set `ATLAS_USER_NAME` to the correct Atlas account name.
 
-To perform a local build simply run, `packer build`
+To perform a local build simply run, `packer build alpine-3.1.3-x86_64.json`
 
 To perform the build integrated with Atlas run, `../atlas.sh`
 
