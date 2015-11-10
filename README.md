@@ -14,6 +14,7 @@ Vagrant 1.7.4
 ### Current boxes
 
 * [Alpine Linux](http://alpinelinux.org/) v3.1.3 x86_64 [Atlas boxes](https://atlas.hashicorp.com/maier/boxes/alpine-3.1.3-x86_64)
+* [Alpine Linux](http://alpinelinux.org/) v3.2.3 x86_64 [Atlas boxes](https://atlas.hashicorp.com/maier/boxes/alpine-3.2.3-x86_64)
 * [CentOS](http://centos.org/) v6.5 x86_64 [Atlas boxes](https://atlas.hashicorp.com/maier/boxes/centos-6.5-x86_64)
 * [CentOS](http://centos.org/) v6.6 x86_64 [Atlas boxes](https://atlas.hashicorp.com/maier/boxes/centos-6.6-x86_64)
 * [CentOS](http://centos.org/) v7.1.1503 x86_64 [Atlas boxes](https://atlas.hashicorp.com/maier/boxes/centos-7.1.1503-x86_64)

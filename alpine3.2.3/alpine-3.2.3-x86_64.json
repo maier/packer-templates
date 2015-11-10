@@ -1,0 +1,95 @@
+{
+  "description": "Build base Alpine Linux x86_64",
+  "push": {
+    "name": "maier/alpine",
+    "vcs": true
+  },
+  "variables": {
+    "atlas_user": "{{env `ATLAS_USER_NAME`}}",
+    "atlas_box": "{{env `ATLAS_BOX_NAME`}}"
+  },
+  "provisioners": [
+    {
+      "type": "shell",
+      "scripts": [
+        "scripts/00base.sh",
+        "scripts/01alpine.sh",
+        "scripts/01networking.sh",
+        "scripts/02sshd.sh",
+        "scripts/03vagrant.sh",
+        "scripts/04sudoers.sh",
+        "scripts/90virtualbox.sh",
+        "scripts/99minimize.sh"
+      ],
+      "override": {
+        "virtualbox-iso": {
+          "execute_command": "/bin/sh '{{.Path}}'"
+        }
+      }
+    }
+  ],
+  "builders": [
+    {
+      "type": "virtualbox-iso",
+      "virtualbox_version_file": ".vbox_version",
+
+      "guest_os_type": "Linux26_64",
+      "guest_additions_mode": "disable",
+      "headless": true,
+      "disk_size": 10240,
+      "http_directory": "http",
+
+      "iso_url": "http://wiki.alpinelinux.org/cgi-bin/dl.cgi/v3.2/releases/x86_64/alpine-3.2.3-x86_64.iso",
+      "iso_checksum": "57f6faf5e065e4063cb8bf61b42566d89e50e81f0ff850f1aa33a7558194a316",
+      "iso_checksum_type": "sha256",
+
+      "ssh_username": "root",
+      "ssh_password": "vagrant",
+      "ssh_port": 22,
+      "ssh_wait_timeout": "1m",
+      "shutdown_command": "/sbin/poweroff",
+
+      "boot_wait": "30s",
+      "boot_command": [
+        "root<enter><wait>",
+        "ifconfig eth0 up && udhcpc -i eth0<enter><wait>",
+        "wget http://{{ .HTTPIP }}:{{ .HTTPPort }}/answers<enter><wait>",
+        "setup-alpine -f answers<enter><wait5>",
+        "vagrant<enter><wait>",
+        "vagrant<enter><wait>",
+        "UTC<enter><wait10>",
+        "<wait10><wait10><wait10>",
+        "y<enter>",
+        "<wait10><wait10><wait10>",
+        "<wait10><wait10><wait10>",
+        "<wait10><wait10><wait10>",
+        "rc-service sshd stop<enter>",
+        "reboot<enter>"
+      ],
+
+      "hard_drive_interface": "sata",
+      "vboxmanage": [
+        ["modifyvm", "{{.Name}}", "--memory", "512"],
+        ["modifyvm", "{{.Name}}", "--cpus", "1"]
+      ]
+
+    }
+  ],
+  "post-processors": [
+    [{
+      "type": "vagrant",
+      "keep_input_artifact": false
+    },
+    {
+      "type": "atlas",
+      "only": ["virtualbox-iso"],
+      "artifact": "{{user `atlas_user`}}/{{user `atlas_box`}}",
+      "artifact_type": "vagrant.box",
+      "metadata": {
+        "provider": "virtualbox",
+        "description": "[Alpine Linux](http://alpinelinux.org) v3.2.3",
+        "version": "1.0.0"
+      }
+    }]
+  ]
+}
