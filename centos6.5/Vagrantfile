@@ -1,0 +1,20 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure(2) do |config|
+
+  config.vm.define "centos65" do |centos|
+
+    centos.vm.box = "maier/centos-6.5-x86_64"
+
+    centos.vm.synced_folder ".", "/vagrant"
+
+    centos.vm.provider "virtualbox" do |vb|
+      vb.name = "centos6"
+      vb.cpus = 1
+      vb.memory = "1024"
+    end
+
+  end
+
+end

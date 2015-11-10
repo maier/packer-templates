@@ -1,0 +1,86 @@
+{
+  "description": "Build base CentOS 6 x86_64",
+  "push": {
+    "name": "maier/centos65",
+    "vcs": true
+  },
+  "variables": {
+    "atlas_user": "{{env `ATLAS_USER_NAME`}}",
+    "atlas_box": "{{env `ATLAS_BOX_NAME`}}"
+  },
+  "provisioners": [
+    {
+      "type": "shell",
+      "scripts": [
+        "scripts/00base.sh",
+        "scripts/01networking.sh",
+        "scripts/02sshd.sh",
+        "scripts/03vagrant.sh",
+        "scripts/04sudoers.sh",
+        "scripts/90virtualbox.sh",
+        "scripts/99minimize.sh"
+      ],
+      "override": {
+        "virtualbox-iso": {
+          "execute_command": "echo 'vagrant'|sudo -S bash '{{.Path}}'"
+        }
+      }
+    }
+  ],
+  "builders": [
+    {
+      "type": "virtualbox-iso",
+      "virtualbox_version_file": ".vbox_version",
+      "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
+
+      "guest_os_type": "Linux26_64",
+      "headless": true,
+      "disk_size": 10240,
+      "http_directory": "http",
+
+      "iso_url": "http://archive.kernel.org/centos-vault/6.5/isos/x86_64/CentOS-6.5-x86_64-minimal.iso",
+      "iso_checksum": "f9d84907d77df62017944cb23cab66305e94ee6ae6c1126415b81cc5e999bdd0",
+      "iso_checksum_type": "sha256",
+
+      "ssh_username": "vagrant",
+      "ssh_password": "vagrant",
+      "ssh_port": 22,
+      "ssh_wait_timeout": "30m",
+      "shutdown_command": "echo 'vagrant'| sudo -S /sbin/poweroff",
+
+      "boot_wait": "20s",
+      "boot_command": [
+        "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/kickstart.cfg<enter>",
+        "<wait10><wait10><wait10>","<wait10><wait10><wait10>",
+        "<wait10><wait10><wait10>","<wait10><wait10><wait10>",
+        "<wait10><wait10><wait10>","<wait10><wait10><wait10>",
+        "<wait10><wait10><wait10>","<wait10><wait10><wait10>",
+        "<wait10><wait10><wait10>","<wait10><wait10><wait10>",
+        "<wait10><wait10><wait10>","<wait10><wait10><wait10>"
+      ],
+
+     "hard_drive_interface": "sata",
+     "vboxmanage": [
+        [ "modifyvm", "{{.Name}}", "--memory", "512" ],
+        [ "modifyvm", "{{.Name}}", "--cpus", "1" ]
+      ]
+    }
+  ],
+  "post-processors": [
+    [{
+      "type": "vagrant",
+      "keep_input_artifact": false
+    },
+    {
+      "type": "atlas",
+      "only": ["virtualbox-iso"],
+      "artifact": "{{user `atlas_user`}}/{{user `atlas_box`}}",
+      "artifact_type": "vagrant.box",
+      "metadata": {
+        "provider": "virtualbox",
+        "description": "[CentOS](http://centos.org) v6.5 x86_64",
+        "version": "1.0.0"
+      }
+    }]
+  ]
+}

@@ -1,0 +1,14 @@
+dist_name="centos"
+dist_vers="6.5"
+dist_arch="x86_64"
+
+build_type="local"
+
+# set in .bashrc
+# ATLAS_USER_NAME="maier"
+#
+# default in atlas.sh is fine
+# ATLAS_BOX_NAME="${dist_name}-${dist_vers}-${dist_arch}"
+
+# END
+
