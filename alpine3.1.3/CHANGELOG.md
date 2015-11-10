@@ -37,6 +37,8 @@ vagrant up
 
 ## Changes
 
+* v1.3.0
+   * Build with Packer v0.8.6/Vagrant v1.7.4/VirtualBox v5.0.8
 * v1.2.0
    * Remove items supported by vagrant-alpine plugin (nfs, fake
    shutdown).

@@ -1,7 +1,7 @@
 {
   "description": "Build base Alpine Linux x86_64",
   "push": {
-    "name": "maier/alpine",
+    "name": "maier/alpine313",
     "vcs": true
   },
   "variables": {
@@ -39,7 +39,7 @@
       "disk_size": 10240,
       "http_directory": "http",
 
-      "iso_url": "http://wiki.alpinelinux.org/cgi-bin/dl.cgi/v3.1/releases/x86_64/alpine-3.1.3-x86_64.iso",
+      "iso_url": "http://dl-2.alpinelinux.org/alpine/v3.1/releases/x86_64/alpine-3.1.3-x86_64.iso",
       "iso_checksum": "a707c6c722e9c881c3c508aeb34d9432f6a1961e216635dae30c2017397de159",
       "iso_checksum_type": "sha256",
 
@@ -88,7 +88,7 @@
       "metadata": {
         "provider": "virtualbox",
         "description": "[Alpine Linux](http://alpinelinux.org) v3.1.3",
-        "version": "1.2.0"
+        "version": "1.3.0"
       }
     }]
   ]

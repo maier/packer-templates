@@ -4,7 +4,7 @@ dist_vers="3.1.3"
 dist_arch="x86_64"
 
 # local or remote
-build_type="remote"
+build_type="local"
 
 # set in .bashrc
 # ATLAS_USER_NAME="maier"
