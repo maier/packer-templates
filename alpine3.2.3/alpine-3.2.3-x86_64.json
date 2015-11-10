@@ -1,7 +1,7 @@
 {
   "description": "Build base Alpine Linux x86_64",
   "push": {
-    "name": "maier/alpine",
+    "name": "maier/alpine323",
     "vcs": true
   },
   "variables": {
