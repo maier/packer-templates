@@ -36,7 +36,7 @@ fi
 case $build_type in
 remote)
     echo "Pushing $template_name to Atlas for remote build."
-    packer push -create ${dist_name}-${dist_vers}-${dist_arch}.json
+    packer push ${dist_name}-${dist_vers}-${dist_arch}.json
     ;;
 local)
     export ATLAS_USER_NAME
