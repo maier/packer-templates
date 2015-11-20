@@ -31,6 +31,10 @@ vagrant up
 
 ## Changes
 
+* v1.1.3
+    * increase memory to 1024, add removal of packages installed to build VirtualBox Guest Additions to leave min os state clean.
+* v1.1.2
+    * virtualbox v5.0.10r104061 guest additions 
 * v1.1.1
     * build process cleanup
 * v1.1.0
