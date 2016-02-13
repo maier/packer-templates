@@ -15,6 +15,7 @@ Vagrant 1.7.4
 
 * [Alpine Linux](http://alpinelinux.org/) v3.1.3 x86_64 [Atlas boxes](https://atlas.hashicorp.com/maier/boxes/alpine-3.1.3-x86_64)
 * [Alpine Linux](http://alpinelinux.org/) v3.2.3 x86_64 [Atlas boxes](https://atlas.hashicorp.com/maier/boxes/alpine-3.2.3-x86_64)
+* [Alpine Linux](http://alpinelinux.org/) v3.3.1 x86_64 [Atlas boxes](https://atlas.hashicorp.com/maier/boxes/alpine-3.3.1-x86_64)
 * [CentOS](http://centos.org/) v6.5 x86_64 [Atlas boxes](https://atlas.hashicorp.com/maier/boxes/centos-6.5-x86_64)
 * [CentOS](http://centos.org/) v6.6 x86_64 [Atlas boxes](https://atlas.hashicorp.com/maier/boxes/centos-6.6-x86_64)
 * [CentOS](http://centos.org/) v7.1.1503 x86_64 [Atlas boxes](https://atlas.hashicorp.com/maier/boxes/centos-7.1.1503-x86_64)
@@ -22,23 +23,23 @@ Vagrant 1.7.4
 
 ## Use existing template
 
-Using `alpine3` as an example:
+Using `alpine3.3.1` as an example:
 
 1. `cd alpine3`
-2. Edit `alpine-3.1.3-x86_64.json`
+2. Edit `alpine-3.3.1-x86_64.json`
 	3. Update `push.name` to use the correct Atlas account name.
 	4. And anything else that interests you
 5. Edit `sh_vars`
 	6. Set `ATLAS_USER_NAME` to the correct Atlas account name.
 
-To perform a local build simply run, `packer build alpine-3.1.3-x86_64.json`
+To perform a local build simply run, `packer build alpine-3.3.1-x86_64.json`
 
 To perform the build integrated with Atlas run, `../atlas.sh`
 
 #### Check syntax
 
 ```
-$ packer validate alpine-3.1.3-x86_64.json
+$ packer validate alpine-3.3.1-x86_64.json
 ```
 
 #### Test build
@@ -46,10 +47,10 @@ $ packer validate alpine-3.1.3-x86_64.json
 Note, this is a **local** build and will **intentionally** fail on the *atlas post-processor*. If it didn't it would push every build up to Atlas, probably not what is desired when the template is being developed, updated, and/or tested.
 
 ```
-$ packer build alpine-3.1.3-x86_64.json
+$ packer build alpine-3.3.1-x86_64.json
 ```
 
-> Note, to debug the VM boot process change *headless* to *false* in the template. Optionally, run `PACKER_LOG=1 packer build alpine-3.1.3-x86_64.json` to see output from Packer.
+> Note, to debug the VM boot process change *headless* to *false* in the template. Optionally, run `PACKER_LOG=1 packer build alpine-3.3.1-x86_64.json` to see output from Packer.
 
 #### Deploy to Atlas
 
