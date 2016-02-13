@@ -31,6 +31,8 @@ vagrant up
 
 ## Changes
 
+* v1.2.0
+    * switch to vault for ISO and yum repositories (otherwise system is auto-upgraded to 7.2)
 * v1.1.3
     * increase memory to 1024, add removal of packages installed to build VirtualBox Guest Additions to leave min os state clean.
 * v1.1.2
