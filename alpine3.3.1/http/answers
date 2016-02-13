@@ -1,0 +1,17 @@
+KEYMAPOPTS="us us"
+HOSTNAMEOPTS="-n alpine-331"
+INTERFACESOPTS="auto lo
+iface lo inet loopback
+
+auto eth0
+iface eth0 inet dhcp
+    hostname alpine-3.3.1
+"
+DNSOPTS="-d local -n 8.8.8.8 8.8.4.4"
+TIMEZONEOPTS="-z UTC"
+PROXYOPTS="none"
+APKREPOSOPTS="-r"
+SSHDOPTS="-c openssh"
+NTPOPTS="-c openntpd"
+DISKOPTS="-s 0 -m sys /dev/sda"
+
