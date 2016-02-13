@@ -7,8 +7,8 @@
 ```shell
 ⁖ packer version && vagrant -v && vboxmanage --version
 Packer v0.8.6
-Vagrant 1.7.4
-5.0.8r103449
+Vagrant 1.8.1
+5.0.14r105127
 ```
 
 ### Current boxes
@@ -19,6 +19,7 @@ Vagrant 1.7.4
 * [CentOS](http://centos.org/) v6.5 x86_64 [Atlas boxes](https://atlas.hashicorp.com/maier/boxes/centos-6.5-x86_64)
 * [CentOS](http://centos.org/) v6.6 x86_64 [Atlas boxes](https://atlas.hashicorp.com/maier/boxes/centos-6.6-x86_64)
 * [CentOS](http://centos.org/) v7.1.1503 x86_64 [Atlas boxes](https://atlas.hashicorp.com/maier/boxes/centos-7.1.1503-x86_64)
+* [CentOS](http://centos.org/) v7.2.1511 x86_64 [Atlas boxes](https://atlas.hashicorp.com/maier/boxes/centos-7.2.1511-x86_64)
 
 
 ## Use existing template
