@@ -45,7 +45,7 @@
       "ssh_username": "vagrant",
       "ssh_password": "vagrant",
       "ssh_port": 22,
-      "ssh_wait_timeout": "30m",
+      "ssh_wait_timeout": "5m",
       "shutdown_command": "echo 'vagrant'| sudo -S /sbin/poweroff",
 
       "boot_wait": "10s",
