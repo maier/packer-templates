@@ -1,0 +1,71 @@
+{
+  "description": "Build base <<for distribution> <distribution major version>> x86_64",
+  "push": {
+    "name": "<<atlas user name>>/<<atlas box short name>>",
+    "vcs": true
+  },
+  "variables": {
+    "atlas_user": "{{env `ATLAS_USER_NAME`}}",
+    "atlas_box": "{{env `ATLAS_BOX_NAME`}}"
+  },
+  "provisioners": [
+    {
+      "type": "shell",
+      "scripts": [
+        "scripts/00base.sh"
+      ],
+      "override": {
+        "virtualbox-iso": {
+          "execute_command": "echo 'vagrant'|sudo -S bash '{{.Path}}'"
+        }
+      }
+    }
+  ],
+  "builders": [
+    {
+      "type": "virtualbox-iso",
+      "virtualbox_version_file": ".vbox_version",
+      "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
+
+      "guest_os_type": "Linux26_64",
+      "headless": true,
+      "disk_size": 10240,
+      "http_directory": "http",
+
+      "iso_url": "",
+      "iso_checksum": "",
+      "iso_checksum_type": "sha256",
+
+      "ssh_username": "vagrant",
+      "ssh_password": "vagrant",
+      "ssh_port": 22,
+      "ssh_wait_timeout": "30m",
+      "shutdown_command": "echo 'vagrant'| sudo -S /sbin/poweroff",
+
+      "boot_wait": "20s",
+      "boot_command": [],
+
+     "hard_drive_interface": "sata",
+     "vboxmanage": [
+        [ "modifyvm", "{{.Name}}", "--memory", "512" ],
+        [ "modifyvm", "{{.Name}}", "--cpus", "1" ]
+      ]
+    }
+  ],
+  "post-processors": [
+    [{
+      "type": "vagrant",
+      "keep_input_artifact": false
+    },
+    {
+      "type": "atlas",
+      "only": ["virtualbox-iso"],
+      "artifact": "{{user `atlas_user`}}/{{user `atlas_box`}}",
+      "artifact_type": "vagrant.box",
+      "metadata": {
+        "provider": "virtualbox",
+        "version": "0.0.1"
+      }
+    }]
+  ]
+}
