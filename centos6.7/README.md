@@ -4,7 +4,7 @@
 
 Build is for developing and testing RPMs.
 
-* v6.6 `vagrant init maier/centos-6.6-x86_64`
+`vagrant init maier/centos-6.7-x86_64`
 
 ## Usage notes
 

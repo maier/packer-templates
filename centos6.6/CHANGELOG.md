@@ -30,6 +30,8 @@ vagrant up
 
 ## Changes
 
+* v1.1.0
+   * move to vault repos
 * v1.0.2
    * build process cleanup
 * v1.0.1
