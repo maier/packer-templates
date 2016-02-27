@@ -4,7 +4,7 @@ apk update && apk upgrade
 
 cat << EOF > /etc/motd
 
-Alpine 3.2.3 Development Environment
+Alpine 3.3.1 Development Environment
 
 Built for use with Vagrant using:
    <https://github.com/maier/packer-templates>
