@@ -1,0 +1,115 @@
+{
+    "description": "Build base OmniOS r151014 x86_64",
+    "push": {
+        "name": "maier/omnios-r151014",
+        "vcs": true
+    },
+    "variables": {
+        "atlas_user": "{{env `ATLAS_USER_NAME`}}",
+        "atlas_box": "{{env `ATLAS_BOX_NAME`}}"
+    },
+    "provisioners": [
+        {
+            "type": "shell",
+            "scripts": [
+                "scripts/00base.sh",
+                "scripts/01networking.sh",
+                "scripts/02sshd.sh",
+                "scripts/03vagrant.sh",
+                "scripts/04sudoers.sh",
+                "scripts/90virtualbox.sh",
+                "scripts/99minimize.sh"
+            ],
+            "override": {
+                "virtualbox-iso": {
+                    "execute_command": "echo 'vagrant'|sudo -S bash '{{.Path}}'"
+                }
+            }
+        }
+    ],
+    "builders": [
+        {
+            "type": "virtualbox-iso",
+            "virtualbox_version_file": ".vbox_version",
+            "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
+
+            "guest_os_type": "Solaris_64",
+            "iso_url": "http://omnios.omniti.com/media/OmniOS_Text_r151014.iso",
+            "iso_checksum": "425326cae6914b7ace69042798bacf1ae0b0e04a",
+            "iso_checksum_type": "sha1",
+            "headless": false,
+            "disk_size": 10240,
+
+            "ssh_username": "root",
+            "ssh_password": "vagrant",
+            "ssh_port": 22,
+            "ssh_wait_timeout": "30m",
+
+            "boot_wait": "10s",
+            "boot_command": [
+                "<wait10><wait10><wait10>",
+                "<enter>",
+                "<wait10><wait10><wait10>",
+                "<enter>",
+                "<wait10><wait10><wait10>",
+                "<f2><wait5>",
+                "<f2><wait5>",
+                "<f2><wait5>",
+                "<bs><bs><bs><bs><bs><bs><bs><bs>",
+                "omnios-r151014",
+                "<f2><wait5>",
+                "<f2><wait5>",
+                "<f2>",
+                "<wait10><wait10><wait10><wait10><wait10><wait10>",
+                "<wait10><wait10><wait10><wait10><wait10><wait10>",
+                "<wait10><wait10><wait10><wait10><wait10><wait10>",
+                "<wait10><wait10><wait10><wait10><wait10><wait10>",
+                "<f8>",
+                "<wait10><wait10><wait10>",
+                "<enter>",
+                "<wait10><wait10><wait10><wait10><wait10><wait10>",
+                "<wait10><wait10><wait10><wait10><wait10>",
+                "root<enter><wait><enter><wait5>",
+                "ipadm create-addr -T dhcp e1000g0/dhcp<enter>",
+                "<wait10><wait10>",
+                "<enter><wait>",
+                "passwd root<enter><wait>",
+                "vagrant<enter><wait>",
+                "vagrant<enter><wait>",
+                "sed -i 's/PermitRootLogin no/PermitRootLogin yes/' /etc/ssh/sshd_config<enter><wait>",
+                "svcadm enable ssh<enter><wait>",
+                "svcadm refresh ssh<enter><wait>",
+                "useradd -s /usr/bin/bash -m -d /export/home/vagrant vagrant<enter><wait5>",
+                "passwd vagrant<enter><wait5>",
+                "vagrant<enter><wait>",
+                "vagrant<enter>"
+            ],
+
+            "floppy_files": [
+                "files/fake_floppy.txt"
+            ],
+
+            "vboxmanage": [
+                [ "modifyvm", "{{.Name}}", "--memory", "2048" ],
+                [ "modifyvm", "{{.Name}}", "--cpus", "2" ]
+            ]
+        }
+    ],
+    "post-processors": [
+        [{
+            "type": "vagrant",
+            "keep_input_artifact": false
+        },
+        {
+            "type": "atlas",
+            "only": ["virtualbox-iso"],
+            "artifact": "{{user `atlas_user`}}/{{user `atlas_box`}}",
+            "artifact_type": "vagrant.box",
+            "metadata": {
+                "provider": "virtualbox",
+                "description": "[OmniOS](http://omnios.omniti.com) r151014 x86_64",
+                "version": "1.0.0"
+            }
+        }]
+    ]
+}
