@@ -1,0 +1,15 @@
+
+dist_name="alpine"
+dist_vers="3.3"
+dist_arch="x86_64"
+
+# local or remote
+build_type="local"
+
+# set in .bashrc
+# ATLAS_USER_NAME="maier"
+#
+# default in atlas.sh is fine
+# ATLAS_BOX_NAME="${dist_name}-${dist_vers}-${dist_arch}"
+
+# END
