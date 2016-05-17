@@ -14,6 +14,7 @@
             "scripts": [
                 "scripts/00base.sh",
                 "scripts/01networking.sh",
+                "scripts/01update.sh",
                 "scripts/02sshd.sh",
                 "scripts/03vagrant.sh",
                 "scripts/04sudoers.sh",
@@ -108,7 +109,7 @@
             "metadata": {
                 "provider": "virtualbox",
                 "description": "[OmniOS](http://omnios.omniti.com) r151014 x86_64",
-                "version": "1.0.0"
+                "version": "1.1.0"
             }
         }]
     ]

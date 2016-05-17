@@ -1,7 +1,4 @@
-set -ux
-
-## update OS
-pkg update
+set -x
 
 dd if=/dev/zero of=/EMPTY bs=1M
 rm -f /EMPTY
@@ -10,3 +7,7 @@ rm -f /EMPTY
 sync
 sync
 sync
+
+shutdown -g0 -y
+
+exit 0
