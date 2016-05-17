@@ -30,5 +30,7 @@ vagrant up
 
 ## Changes
 
+* v1.1.0
+    * reduce size of image
 * v1.0.0
     * initial r151006

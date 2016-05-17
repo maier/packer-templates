@@ -1,8 +1,8 @@
 set -ux
 
-## update OS
-pkg install pkg:/package/pkg
-pkg update
+# move this here from 02sshd so provisioning can get in one last time
+# to complete the build
+sed -i 's/PermitRootLogin yes/PermitRootLogin no/' /etc/ssh/sshd_config
 
 dd if=/dev/zero of=/EMPTY bs=1M
 rm -f /EMPTY

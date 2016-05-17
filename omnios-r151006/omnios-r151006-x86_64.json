@@ -18,6 +18,7 @@
                 "scripts/03vagrant.sh",
                 "scripts/04sudoers.sh",
                 "scripts/90virtualbox.sh",
+                "scripts/91update.sh",
                 "scripts/99minimize.sh"
             ],
             "override": {
@@ -108,7 +109,7 @@
             "metadata": {
                 "provider": "virtualbox",
                 "description": "[OmniOS](http://omnios.omniti.com) r151006 x86_64",
-                "version": "1.0.0"
+                "version": "1.1.0"
             }
         }]
     ]
