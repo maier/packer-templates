@@ -1,0 +1,93 @@
+{
+    "description": "Build base Ubuntu 16.04 x86_64",
+    "push": {
+      "name": "maier/ubuntu16",
+      "vcs": true
+    },
+    "variables": {
+      "atlas_user": "{{env `ATLAS_USER_NAME`}}",
+      "atlas_box": "{{env `ATLAS_BOX_NAME`}}"
+    },
+    "provisioners": [
+        {
+            "type": "shell",
+            "execute_command": "echo 'vagrant' | sudo -S sh '{{.Path}}'",
+            "scripts": [
+                "scripts/00base.sh",
+                "scripts/01networking.sh",
+                "scripts/02sshd.sh",
+                "scripts/03vagrant.sh",
+                "scripts/04sudoers.sh",
+                "scripts/90virtualbox.sh",
+                "scripts/99cleanup.sh",
+                "scripts/99minimize.sh"
+            ]
+        }
+    ],
+    "builders": [
+        {
+            "type": "virtualbox-iso",
+            "virtualbox_version_file": ".vbox_version",
+            "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
+
+            "guest_os_type": "Ubuntu_64",
+            "headless": false,
+            "disk_size": 10240,
+            "http_directory": "http",
+
+            "iso_url": "http://releases.ubuntu.com/16.04/ubuntu-16.04.1-server-amd64.iso",
+            "iso_checksum": "29a8b9009509b39d542ecb229787cdf48f05e739a932289de9e9858d7c487c80",
+            "iso_checksum_type": "sha256",
+
+            "ssh_username": "vagrant",
+            "ssh_password": "vagrant",
+            "ssh_port": 22,
+            "ssh_wait_timeout": "15m",
+            "shutdown_command": "echo 'vagrant'| sudo -S shutdown -P now",
+
+            "boot_wait": "5s",
+            "boot_command": [
+                "<enter><wait>",
+                "<f6><esc>",
+                "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
+                "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
+                "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
+                "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
+                "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
+                "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
+                "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
+                "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
+                "<bs><bs><bs>",
+                "/install/vmlinuz ",
+                "initrd=/install/initrd.gz ",
+                "net.ifnames=0 ",
+                "auto-install/enable=true ",
+                "debconf/priority=critical ",
+                "preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed.cfg<wait>",
+                "<enter>"
+            ],
+
+            "vboxmanage": [
+                [ "modifyvm", "{{.Name}}", "--memory", "512" ],
+                [ "modifyvm", "{{.Name}}", "--cpus", "1" ]
+            ]
+        }
+    ],
+    "post-processors": [
+        [{
+            "type": "vagrant",
+            "keep_input_artifact": false
+        },
+        {
+            "type": "atlas",
+            "only": ["virtualbox-iso"],
+            "artifact": "{{user `atlas_user`}}/{{user `atlas_box`}}",
+            "artifact_type": "vagrant.box",
+            "metadata": {
+                "provider": "virtualbox",
+                "description": "[Ubuntu](http://ubuntu.com) v16.04 x86_64",
+                "version": "1.1.0"
+            }
+        }]
+    ]
+}

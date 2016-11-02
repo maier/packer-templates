@@ -1,0 +1,21 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+#
+
+Vagrant.configure(2) do |config|
+
+  config.vm.define "ubuntu16" do |ubuntu|
+
+    ubuntu.vm.box = "maier/ubuntu-16.04-x86_64"
+
+    ubuntu.vm.synced_folder ".", "/vagrant", disabled: false
+
+    ubuntu.vm.provider "virtualbox" do |vb|
+      vb.name = "ubuntu16"
+      vb.cpus = 1
+      vb.memory = "1024"
+    end
+
+  end
+
+end
