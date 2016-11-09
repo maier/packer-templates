@@ -6,7 +6,10 @@
   },
   "variables": {
     "atlas_user": "{{env `ATLAS_USER_NAME`}}",
-    "atlas_box": "{{env `ATLAS_BOX_NAME`}}"
+    "atlas_box": "{{env `ATLAS_BOX_NAME`}}",
+    "disk_size": "10240",
+    "memory": "1024",
+    "cpus": "1"
   },
   "provisioners": [
     {
@@ -36,11 +39,12 @@
       "guest_additions_mode": "disable",
       "guest_os_type": "Linux26_64",
       "headless": false,
-      "disk_size": 10240,
+      "disk_size": "{{user `disk_size`}}",
       "http_directory": "http",
 
-      "iso_url": "http://dl-cdn.alpinelinux.org/alpine/v3.4/releases/x86_64/alpine-3.4.0-x86_64.iso",
-      "iso_checksum": "f871795c3fc63dd54340b8b1f5cf0b6f2f047d80f710f8644b969b4f1ffc0c7d",
+      "iso_urls": ["isos/alpine-3.4.6-x86_64.iso", 
+                   "http://dl-4.alpinelinux.org/alpine/v3.4/releases/x86_64/alpine-3.4.6-x86_64.iso"],
+      "iso_checksum": "08d30e0ff4540a42ad0014b8d8094949cd62edabeea0727d7e881e8dec25b77e",
       "iso_checksum_type": "sha256",
 
       "communicator": "ssh",
@@ -75,8 +79,8 @@
 
       "hard_drive_interface": "sata",
       "vboxmanage": [
-        ["modifyvm", "{{.Name}}", "--memory", "512"],
-        ["modifyvm", "{{.Name}}", "--cpus", "1"]
+        ["modifyvm", "{{.Name}}", "--memory", "{{user `memory`}}"],
+        ["modifyvm", "{{.Name}}", "--cpus", "{{user `cpus`}}"]
       ]
 
     }
