@@ -97,8 +97,8 @@
       "artifact_type": "vagrant.box",
       "metadata": {
         "provider": "virtualbox",
-        "description": "[Alpine Linux](http://alpinelinux.org) v3.4.0",
-        "version": "1.0.0"
+        "description": "[Alpine Linux](http://alpinelinux.org) v3.4.6",
+        "version": "1.6.0"
       }
     }]
   ]
