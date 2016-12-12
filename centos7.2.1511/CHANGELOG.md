@@ -1,9 +1,8 @@
 ## [CentOS](http://centos.org) v7.2.1511
 
 * x86_64
-* base install
+* minimal install
 * has VBoxGuestAdditions
-* epel, gcc, kernel-devel, and perl added (with their respective deps)
 * [Packer template](https://github.com/maier/packer-templates/)
 
 ## Use
@@ -32,4 +31,6 @@ vagrant up
 ## Changes
 
 * v1.0.0
-    * initial
+   * initial
+* v1.1.0
+   * VBGA 5.1.10 
