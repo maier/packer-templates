@@ -1,8 +1,8 @@
-## [OmniOS](http://omnios.omniti.com) 
+## [OmniOS](http://omnios.omniti.com)
 
 * x86_64
 * base install
-* has VBoxGuestAdditions
+* has VBoxGuestAdditions, gcc, golang
 * [Packer template](https://github.com/maier/packer-templates/)
 
 ## Use
@@ -30,6 +30,9 @@ vagrant up
 
 ## Changes
 
+* v1.2.0
+    * bring base to latest patches
+* v1.1.0
+    * bring base to latest patches
 * v1.0.0
     * initial r151014
-

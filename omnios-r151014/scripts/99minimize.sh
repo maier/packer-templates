@@ -8,6 +8,6 @@ sync
 sync
 sync
 
-shutdown -g0 -y
+/usr/sbin/shutdown -g 0 -y -i 5
 
 exit 0

@@ -18,6 +18,7 @@
                 "scripts/02sshd.sh",
                 "scripts/03vagrant.sh",
                 "scripts/04sudoers.sh",
+                "scripts/05development.sh",
                 "scripts/90virtualbox.sh",
                 "scripts/99minimize.sh"
             ],
@@ -35,8 +36,8 @@
             "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
 
             "guest_os_type": "Solaris_64",
-            "iso_url": "http://omnios.omniti.com/media/OmniOS_Text_r151014.iso",
-            "iso_checksum": "425326cae6914b7ace69042798bacf1ae0b0e04a",
+            "iso_url": "http://omnios.omniti.com/media/OmniOS_Text_r151014-Nov12.iso",
+            "iso_checksum": "bcb18d81aed9b273328fca7ab9c90929e379b83c",
             "iso_checksum_type": "sha1",
             "headless": false,
             "disk_size": 10240,
@@ -109,7 +110,7 @@
             "metadata": {
                 "provider": "virtualbox",
                 "description": "[OmniOS](http://omnios.omniti.com) r151014 x86_64",
-                "version": "1.1.0"
+                "version": "1.2.0"
             }
         }]
     ]

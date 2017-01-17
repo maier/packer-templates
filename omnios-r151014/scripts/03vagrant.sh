@@ -3,6 +3,8 @@ set -ex
 # Fix vagrant's homedir
 usermod -d /home/vagrant vagrant
 
+mv /home/vagrant/.profile /home/vagrant/.bash_profile
+
 # Install vagrant's SSH pubkey
 mkdir -p /export/home/vagrant/.ssh
 chmod 700 /export/home/vagrant/.ssh
