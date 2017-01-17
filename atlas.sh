@@ -36,14 +36,15 @@ fi
 case $build_type in
 remote)
     echo "Pushing $template_name to Atlas for remote build. (and making it public)"
-    packer push ${dist_name}-${dist_vers}-${dist_arch}.json 
-    curl -H "X-Atlas-Token: $ATLAS_TOKEN" -X PUT -d box[is_private]='no' "https://atlas.hashicorp.com/api/v1/box/${ATLAS_USER_NAME}/${dist_name}-${dist_vers}-${dist_arch}"
+    packer push $template_name
+    curl -H "X-Atlas-Token: $ATLAS_TOKEN" -X PUT -d box[is_private]='no' "https://atlas.hashicorp.com/api/v1/box/${ATLAS_USER_NAME}/${ATLAS_BOX_NAME}"
     ;;
 local)
     export ATLAS_USER_NAME
     export ATLAS_BOX_NAME
     echo "Build box locally then push box to Atlas."
-    packer build ${dist_name}-${dist_vers}-${dist_arch}.json
+    packer build $template_name
+    curl -H "X-Atlas-Token: $ATLAS_TOKEN" -X PUT -d box[is_private]='no' "https://atlas.hashicorp.com/api/v1/box/${ATLAS_USER_NAME}/${ATLAS_BOX_NAME}"
     unset ATLAS_BOX_NAME
     unset ATLAS_USER_NAME
     ;;
