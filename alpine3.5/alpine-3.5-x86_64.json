@@ -1,0 +1,107 @@
+{
+  "description": "Build base Alpine Linux x86_64",
+  "push": {
+    "name": "maier/alpine35",
+    "vcs": true
+  },
+  "variables": {
+    "atlas_user": "{{env `ATLAS_USER_NAME`}}",
+    "atlas_token": "{{env `ATLAS_TOKEN`}}",
+    "atlas_box": "{{env `ATLAS_BOX_NAME`}}",
+    "disk_size": "10240",
+    "memory": "1024",
+    "cpus": "1"
+  },
+  "provisioners": [
+    {
+      "type": "shell",
+      "scripts": [
+        "scripts/00base.sh",
+        "scripts/01alpine.sh",
+        "scripts/01networking.sh",
+        "scripts/02sshd.sh",
+        "scripts/03vagrant.sh",
+        "scripts/04sudoers.sh",
+        "scripts/90virtualbox.sh",
+        "scripts/99minimize.sh"
+      ],
+      "override": {
+        "virtualbox-iso": {
+          "execute_command": "/bin/sh '{{.Path}}'"
+        }
+      }
+    }
+  ],
+  "builders": [
+    {
+      "type": "virtualbox-iso",
+      "virtualbox_version_file": ".vbox_version",
+
+      "guest_additions_mode": "disable",
+      "guest_os_type": "Linux26_64",
+      "headless": false,
+      "disk_size": "{{user `disk_size`}}",
+      "http_directory": "http",
+
+      "iso_urls": ["isos/alpine-virt-3.5.1-x86_64.iso", 
+                   "https://nl.alpinelinux.org/alpine/v3.5/releases/x86_64/alpine-virt-3.5.1-x86_64.iso"],
+      "iso_checksum": "8092b3d482fb1b7a5cf28c43bc1425c8f2d380e86869c0686c49aa7b0f086ab2",
+      "iso_checksum_type": "sha256",
+
+      "communicator": "ssh",
+      "ssh_username": "root",
+      "ssh_password": "vagrant",
+      "ssh_wait_timeout": "10m",
+      "shutdown_command": "/sbin/poweroff",
+
+      "boot_wait": "30s",
+      "boot_command": [
+        "root<enter><wait>",
+        "ifconfig eth0 up && udhcpc -i eth0<enter><wait>",
+        "wget http://{{ .HTTPIP }}:{{ .HTTPPort }}/answers<enter><wait>",
+        "setup-alpine -f answers<enter><wait5>",
+        "vagrant<enter><wait>",
+        "vagrant<enter><wait>",
+        "<wait10><wait10><wait10>",
+        "<wait10><wait10><wait10>",
+        "y<enter>",
+        "<wait10><wait10><wait10>",
+        "<wait10><wait10><wait10>",
+        "<wait10><wait10><wait10>",
+        "<wait10><wait10><wait10>",
+        "<wait10><wait10><wait10>",
+        "<wait10><wait10><wait10>",
+        "rc-service sshd stop<enter>",
+        "mount /dev/sda3 /mnt<enter>",
+        "echo 'PermitRootLogin yes' >> /mnt/etc/ssh/sshd_config<enter>",
+        "umount /mnt<enter>",
+        "reboot<enter>"
+      ],
+
+      "hard_drive_interface": "sata",
+      "vboxmanage": [
+        ["modifyvm", "{{.Name}}", "--memory", "{{user `memory`}}"],
+        ["modifyvm", "{{.Name}}", "--cpus", "{{user `cpus`}}"]
+      ]
+
+    }
+  ],
+  "post-processors": [
+    [{
+      "type": "vagrant",
+      "keep_input_artifact": false
+    },
+    {
+      "type": "atlas",
+      "only": ["virtualbox-iso"],
+      "token": "{{user `atlas_token`}}",
+      "artifact": "{{user `atlas_user`}}/{{user `atlas_box`}}",
+      "artifact_type": "vagrant.box",
+      "metadata": {
+        "provider": "virtualbox",
+        "description": "[Alpine Linux](http://alpinelinux.org) v3.5.1",
+        "version": "1.0.0"
+      }
+    }]
+  ]
+}
