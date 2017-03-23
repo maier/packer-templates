@@ -1,8 +1,11 @@
 set -x
 
 
-apt-get -y autoremove
-apt-get -y clean
+# remove x11 (it's a server...)
+apt-get remove -y libx11.* libqt.*
+
+apt-get autoremove -y
+apt-get clean -y
 #rm -f /var/cache/apt/*cache.bin
 #rm -f /var/lib/apt/lists/*
 
