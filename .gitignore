@@ -4,6 +4,7 @@
 #Vagrantfile
 # ignore any locally created box files
 *.box
+output-virtualbox-iso/
 # ignore test directories
 test/
 
