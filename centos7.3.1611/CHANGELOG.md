@@ -3,7 +3,6 @@
 * x86_64
 * base install
 * has VBoxGuestAdditions
-* epel, gcc, kernel-devel, and perl added (with their respective deps)
 * [Packer template](https://github.com/maier/packer-templates/)
 
 ## Use
