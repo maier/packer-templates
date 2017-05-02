@@ -1,6 +1,6 @@
 
 dist_name="alpine"
-dist_vers="3.4"
+dist_vers="3.5"
 dist_arch="x86_64"
 
 # local or remote
