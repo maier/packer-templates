@@ -21,7 +21,7 @@ vagrant init maier/alpine-3.6-x86_64
 
 or
 
-Make a copy of the example [Vagrantfile](https://github.com/maier/packer-templates/alpine3.6/Vagrantfile) supplied with this repository.
+Make a copy of the example [Vagrantfile](https://github.com/maier/packer-templates/blob/master/alpine3.6/Vagrantfile) supplied with this repository.
 
 #### Edit the Vagrantfile to customize for your needs.
 
