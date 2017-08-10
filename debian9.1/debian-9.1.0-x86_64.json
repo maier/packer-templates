@@ -1,0 +1,86 @@
+{
+    "description": "Build base Debian 9.1 (stretch) x86_64",
+    "push": {
+      "name": "maier/debian8",
+      "vcs": true
+    },
+    "variables": {
+        "vagrantcloud_token": "{{env `VC_TOKEN`}}",
+        "box_version": "{{ env `VC_BOX_VER`}}",
+        "box_tag": "{{env `VC_BOX_TAG`}}"
+    },
+    "provisioners": [
+        {
+            "type": "shell",
+            "execute_command": "echo 'vagrant' | sudo -S sh '{{.Path}}'",
+            "scripts": [
+                "scripts/00base.sh",
+                "scripts/01networking.sh",
+                "scripts/02sshd.sh",
+                "scripts/03vagrant.sh",
+                "scripts/04sudoers.sh",
+                "scripts/90virtualbox.sh",
+                "scripts/99cleanup.sh",
+                "scripts/99minimize.sh"
+            ]
+        }
+    ],
+    "builders": [
+        {
+            "type": "virtualbox-iso",
+            "virtualbox_version_file": ".vbox_version",
+            "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
+
+            "guest_os_type": "Debian_64",
+            "headless": false,
+            "disk_size": 10240,
+            "http_directory": "http",
+
+            "iso_url": "http://cdimage.debian.org/cdimage/release/9.1.0/amd64/iso-cd/debian-9.1.0-amd64-netinst.iso",
+            "iso_checksum": "c9e070074de83aa22e141f59a423e5210a5019b369ef1efe61a2afd44ba8f371",
+            "iso_checksum_type": "sha256",
+
+            "ssh_username": "vagrant",
+            "ssh_password": "vagrant",
+            "ssh_port": 22,
+            "ssh_wait_timeout": "15m",
+            "shutdown_command": "echo 'vagrant'|sudo -S shutdown -hP now",
+
+            "boot_wait": "10s",
+            "boot_command": [
+                "<esc><wait>",
+                "install<wait>",
+                " preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed.cfg<wait>",
+                " debian-installer=en_US<wait>",
+                " auto<wait>",
+                " locale=en_US<wait>",
+                " kbd-chooser/method=us<wait>",
+                " keyboard-configuration/xkb-keymap=us<wait>",
+                " netcfg/get_hostname=debian-91<wait>",
+                " netcfg/get_domain=vagrantup.com<wait>",
+                " fb=false<wait>",
+                " debconf/frontend=noninteractive<wait>",
+                " console-setup/ask_detect=false<wait>",
+                " console-keymaps-at/keymap=us<wait>",
+                "<enter><wait>"
+            ],
+
+            "vboxmanage": [
+                [ "modifyvm", "{{.Name}}", "--memory", "1024" ],
+                [ "modifyvm", "{{.Name}}", "--cpus", "1" ]
+            ]
+        }
+    ],
+    "post-processors": [
+        [{
+            "type": "vagrant",
+            "output": "output.box"
+        },
+        {
+            "type": "vagrant-cloud",
+            "access_token": "{{user `vagrantcloud_token`}}",
+            "box_tag": "{{user `box_tag`}}",
+            "version": "{{user `box_version`}}"
+        }]
+    ]
+}
