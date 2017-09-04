@@ -1,5 +1,4 @@
 set -ux
 
-# nothing special required
-
-exit 0
+# update all packages, especially the kernel.
+apk update && apk upgrade
