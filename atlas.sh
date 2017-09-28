@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+# DEPRECATED, use vagrantcloud
+
 #set -eux
 
 function die_var_unset {
