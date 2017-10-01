@@ -1,16 +1,17 @@
 {
   "description": "Build base Alpine Linux x86_64",
   "push": {
-    "name": "maier/alpine36",
+    "name": "maier/alpine35",
     "vcs": true
   },
   "variables": {
-    "atlas_user": "{{env `ATLAS_USER_NAME`}}",
-    "atlas_token": "{{env `ATLAS_TOKEN`}}",
-    "atlas_box": "{{env `ATLAS_BOX_NAME`}}",
-    "disk_size": "10240",
-    "memory": "1024",
-    "cpus": "1"
+      "vagrantcloud_token": "{{env `VC_TOKEN`}}",
+      "box_version": "{{ env `VC_BOX_VER`}}",
+      "box_release": "{{ env `VC_BOX_REL`}}",
+      "box_tag": "{{env `VC_BOX_TAG`}}",
+      "disk_size": "10240",
+      "memory": "1024",
+      "cpus": "1"
   },
   "provisioners": [
     {
@@ -43,7 +44,7 @@
       "disk_size": "{{user `disk_size`}}",
       "http_directory": "http",
 
-      "iso_urls": ["isos/alpine-standard-3.6.2-x86_64.iso",
+      "iso_urls": ["isos/alpine-virt-3.6.2-x86_64.iso",
                    "http://dl-cdn.alpinelinux.org/alpine/v3.6/releases/x86_64/alpine-standard-3.6.2-x86_64.iso"],
       "iso_checksum": "ddf8b91cc0d2b1c110f26607d410e5c951eedff9c60d6eb05d220b87c1970840",
       "iso_checksum_type": "sha256",
@@ -84,19 +85,14 @@
   "post-processors": [
     [{
       "type": "vagrant",
-      "keep_input_artifact": false
+      "vagrantfile_template": "Vagrantfile",
+      "output": "output.box"
     },
     {
-      "type": "atlas",
-      "only": ["virtualbox-iso"],
-      "token": "{{user `atlas_token`}}",
-      "artifact": "{{user `atlas_user`}}/{{user `atlas_box`}}",
-      "artifact_type": "vagrant.box",
-      "metadata": {
-        "provider": "virtualbox",
-        "description": "[Alpine Linux](http://alpinelinux.org) v3.6.0",
-        "version": "1.0.0"
-      }
+        "type": "vagrant-cloud",
+        "access_token": "{{user `vagrantcloud_token`}}",
+        "box_tag": "{{user `box_tag`}}",
+        "version": "{{ user `box_release`}}"
     }]
   ]
 }
