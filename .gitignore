@@ -7,5 +7,6 @@
 output-virtualbox-iso/
 # ignore test directories
 test/
-
+# ignore packer_cache
+packer_cache
 
