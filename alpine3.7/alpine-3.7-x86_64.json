@@ -1,0 +1,98 @@
+{
+  "description": "Build base Alpine Linux x86_64",
+  "push": {
+    "name": "maier/alpine37",
+    "vcs": true
+  },
+  "variables": {
+      "vagrantcloud_token": "{{env `VC_TOKEN`}}",
+      "box_version": "{{ env `VC_BOX_VER`}}",
+      "box_release": "{{ env `VC_BOX_REL`}}",
+      "box_tag": "{{env `VC_BOX_TAG`}}",
+      "disk_size": "10240",
+      "memory": "1024",
+      "cpus": "1"
+  },
+  "provisioners": [
+    {
+      "type": "shell",
+      "scripts": [
+        "scripts/00base.sh",
+        "scripts/01alpine.sh",
+        "scripts/01networking.sh",
+        "scripts/02sshd.sh",
+        "scripts/03vagrant.sh",
+        "scripts/04sudoers.sh",
+        "scripts/90virtualbox.sh",
+        "scripts/99minimize.sh"
+      ],
+      "override": {
+        "virtualbox-iso": {
+          "execute_command": "/bin/sh '{{.Path}}'"
+        }
+      }
+    }
+  ],
+  "builders": [
+    {
+      "type": "virtualbox-iso",
+      "virtualbox_version_file": ".vbox_version",
+
+      "guest_additions_mode": "disable",
+      "guest_os_type": "Linux26_64",
+      "headless": false,
+      "disk_size": "{{user `disk_size`}}",
+      "http_directory": "http",
+
+      "iso_urls": ["isos/alpine-virt-3.7.0-x86_64.iso",
+                   "http://dl-cdn.alpinelinux.org/alpine/v3.7/releases/x86_64/alpine-virt-3.7.0-x86_64.iso"],
+      "iso_checksum": "5a4b2588afd32e7024dd61d9558b77b03a4f3189cb4c9fc05e9e944fb780acdd",
+      "iso_checksum_type": "sha256",
+
+      "communicator": "ssh",
+      "ssh_username": "root",
+      "ssh_password": "vagrant",
+      "ssh_wait_timeout": "10m",
+      "shutdown_command": "/sbin/poweroff",
+
+      "boot_wait": "30s",
+      "boot_command": [
+        "root<enter><wait>",
+        "ifconfig eth0 up && udhcpc -i eth0<enter><wait10>",
+        "wget http://{{ .HTTPIP }}:{{ .HTTPPort }}/answers<enter><wait>",
+        "setup-alpine -f $PWD/answers<enter><wait5>",
+        "vagrant<enter><wait>",
+        "vagrant<enter><wait>",
+        "<wait10><wait10><wait10>",
+        "y<enter>",
+        "<wait10><wait10><wait10>",
+        "<wait10><wait10><wait10>",
+        "rc-service sshd stop<enter>",
+        "mount /dev/sda3 /mnt<enter>",
+        "echo 'PermitRootLogin yes' >> /mnt/etc/ssh/sshd_config<enter>",
+        "umount /mnt<enter>",
+        "reboot<enter>"
+      ],
+
+      "hard_drive_interface": "sata",
+      "vboxmanage": [
+        ["modifyvm", "{{.Name}}", "--memory", "{{user `memory`}}"],
+        ["modifyvm", "{{.Name}}", "--cpus", "{{user `cpus`}}"]
+      ]
+
+    }
+  ],
+  "post-processors": [
+    [{
+      "type": "vagrant",
+      "vagrantfile_template": "Vagrantfile",
+      "output": "output.box"
+    },
+    {
+        "type": "vagrant-cloud",
+        "access_token": "{{user `vagrantcloud_token`}}",
+        "box_tag": "{{user `box_tag`}}",
+        "version": "{{ user `box_release`}}"
+    }]
+  ]
+}
