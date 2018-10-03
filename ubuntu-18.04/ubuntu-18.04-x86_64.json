@@ -1,0 +1,80 @@
+{
+    "description": "Build base Ubuntu 18.04 x86_64",
+    "push": {
+      "name": "maier/ubuntu18",
+      "vcs": true
+    },
+    "variables": {
+        "vagrantcloud_token": "{{env `VC_TOKEN`}}",
+        "box_version": "{{ env `VC_BOX_VER`}}",
+        "box_release": "{{ env `VC_BOX_REL`}}",
+        "box_tag": "{{env `VC_BOX_TAG`}}"
+    },
+    "provisioners": [
+        {
+            "type": "shell",
+            "execute_command": "echo 'vagrant' | sudo -S sh '{{.Path}}'",
+            "scripts": [
+                "scripts/00base.sh",
+                "scripts/01networking.sh",
+                "scripts/02sshd.sh",
+                "scripts/03vagrant.sh",
+                "scripts/04sudoers.sh",
+                "scripts/90virtualbox.sh",
+                "scripts/99cleanup.sh",
+                "scripts/99minimize.sh"
+            ]
+        }
+    ],
+    "builders": [
+        {
+            "type": "virtualbox-iso",
+            "virtualbox_version_file": ".vbox_version",
+            "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
+
+            "guest_os_type": "Ubuntu_64",
+            "headless": false,
+            "disk_size": 10240,
+            "http_directory": "http",
+
+            "iso_url": "http://cdimage.ubuntu.com/ubuntu/releases/bionic/release/ubuntu-18.04.1-server-amd64.iso",
+            "iso_checksum": "a5b0ea5918f850124f3d72ef4b85bda82f0fcd02ec721be19c1a6952791c8ee8",
+            "iso_checksum_type": "sha256",
+
+            "ssh_username": "vagrant",
+            "ssh_password": "vagrant",
+            "ssh_port": 22,
+            "ssh_wait_timeout": "15m",
+            "shutdown_command": "echo 'vagrant'| sudo -S shutdown -P now",
+
+            "boot_wait": "5s",
+            "boot_command": [
+                "<esc><wait>",
+                "<esc><wait>",
+                "<enter><wait>",
+                "/install/vmlinuz initrd=/install/initrd.gz",
+                " auto=true net.ifnames=0 debconf/priority=critical",
+                " preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed.cfg",
+                "<enter>"
+            ],
+
+            "vboxmanage": [
+                [ "modifyvm", "{{.Name}}", "--memory", "1024" ],
+                [ "modifyvm", "{{.Name}}", "--cpus", "1" ]
+            ]
+        }
+    ],
+    "post-processors": [
+        [{
+            "type": "vagrant",
+            "vagrantfile_template": "Vagrantfile",
+            "output": "output.box"
+        },
+        {
+            "type": "vagrant-cloud",
+            "access_token": "{{user `vagrantcloud_token`}}",
+            "box_tag": "{{user `box_tag`}}",
+            "version": "{{user `box_version`}}"
+        }]
+    ]
+}
