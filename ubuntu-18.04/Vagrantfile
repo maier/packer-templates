@@ -1,0 +1,20 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+#
+
+Vagrant.configure(2) do |config|
+    config.vm.define 'ubuntu18' do |ubuntu18|
+        ubuntu18.vm.box = 'maier/ubuntu-18.04-x86_64'
+        ubuntu18.vm.synced_folder '.', '/vagrant', disabled: false
+        ubuntu18.vm.provider 'virtualbox' do |vb|
+            vb.name = 'ubuntu18'
+            vb.cpus = 1
+            vb.memory = '1024'
+        end
+    end
+    # config.vm.provision 'shell', inline: <<-SHELL
+    #     # apt-get update
+    #     # apt-get upgrade
+    #     # apt-get dist-upgrade
+    # SHELL
+end

@@ -42,6 +42,7 @@ template_name="${BOX_NAME}.json"
 case $target in
     local)
         echo "Building box locally (for testing)"
+        export VC_TOKEN="noop"
         ;;
     vc|vagrantcloud)
         [[ -z "$VAGRANTCLOUD_TOKEN" ]] && die_var_unset "VAGRANTCLOUD_TOKEN"
