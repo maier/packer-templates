@@ -1,0 +1,19 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+#
+
+Vagrant.configure(2) do |config|
+    config.vm.define 'centos7' do |centos|
+        centos.vm.box = 'maier/centos-7.5.1804-x86_64'
+        centos.vm.synced_folder '.', '/vagrant'
+        centos.vm.provider 'virtualbox' do |vb|
+            vb.name = 'centos7'
+            vb.cpus = 2
+            vb.memory = '2048'
+        end
+    end
+    # config.vm.provision 'shell', inline: <<-SHELL
+    #     yum -q -e 0 makecache fast
+    #     yum -q -y update
+    # SHELL
+end

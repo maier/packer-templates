@@ -1,0 +1,87 @@
+{
+  "description": "Build base CentOS 7 x86_64",
+  "push": {
+    "name": "maier/centos7",
+    "vcs": true
+  },
+  "variables": {
+      "vagrantcloud_token": "{{env `VC_TOKEN`}}",
+      "box_version": "{{env `VC_BOX_VER`}}",
+      "box_release": "{{env `VC_BOX_REL`}}",
+      "box_tag": "{{env `VC_BOX_TAG`}}"
+  },
+  "provisioners": [
+    {
+      "type": "shell",
+      "scripts": [
+        "scripts/00base.sh",
+        "scripts/01networking.sh",
+        "scripts/02sshd.sh",
+        "scripts/03vagrant.sh",
+        "scripts/04sudoers.sh",
+        "scripts/90virtualbox.sh",
+        "scripts/99minimize.sh"
+      ],
+      "override": {
+        "virtualbox-iso": {
+          "execute_command": "echo 'vagrant'|sudo -S bash '{{.Path}}'"
+        }
+      }
+    }
+  ],
+  "builders": [
+    {
+      "type": "virtualbox-iso",
+      "virtualbox_version_file": ".vbox_version",
+      "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
+
+      "guest_os_type": "Linux26_64",
+      "headless": false,
+      "disk_size": 10240,
+      "http_directory": "http",
+
+      "iso_url": "http://ftp.usf.edu/pub/centos/7.5.1804/isos/x86_64/CentOS-7-x86_64-Minimal-1804.iso",
+      "iso_checksum": "714acc0aefb32b7d51b515e25546835e55a90da9fb00417fbee2d03a62801efd",
+      "iso_checksum_type": "sha256",
+
+      "ssh_username": "vagrant",
+      "ssh_password": "vagrant",
+      "ssh_port": 22,
+      "ssh_wait_timeout": "10m",
+      "shutdown_command": "echo 'vagrant'| sudo -S /sbin/poweroff",
+
+      "boot_wait": "10s",
+      "boot_command": [
+        "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/kickstart.cfg<enter>",
+        "<wait10><wait10><wait10>","<wait10><wait10><wait10>",
+        "<wait10><wait10><wait10>","<wait10><wait10><wait10>",
+        "<wait10><wait10><wait10>","<wait10><wait10><wait10>",
+        "<wait10><wait10><wait10>","<wait10><wait10><wait10>",
+        "<wait10><wait10><wait10>","<wait10><wait10><wait10>",
+        "<wait10><wait10><wait10>","<wait10><wait10><wait10>",
+        "<wait10><wait10><wait10>","<wait10><wait10><wait10>",
+        "<wait10><wait10><wait10>","<wait10><wait10><wait10>",
+        "<wait10><wait10><wait10>","<wait10><wait10><wait10>"
+      ],
+
+     "hard_drive_interface": "sata",
+     "vboxmanage": [
+        [ "modifyvm", "{{.Name}}", "--memory", "2048" ],
+        [ "modifyvm", "{{.Name}}", "--cpus", "2" ]
+      ]
+    }
+  ],
+  "post-processors": [
+    [{
+      "type": "vagrant",
+      "vagrantfile_template": "Vagrantfile",
+      "output": "output.box"
+    },
+    {
+        "type": "vagrant-cloud",
+        "access_token": "{{user `vagrantcloud_token`}}",
+        "box_tag": "{{user `box_tag`}}",
+        "version": "{{user `box_version`}}"
+    }]
+  ]
+}
