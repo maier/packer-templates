@@ -44,9 +44,9 @@
       "disk_size": "{{user `disk_size`}}",
       "http_directory": "http",
 
-      "iso_urls": ["isos/alpine-virt-3.8.1-x86_64.iso",
-                   "http://dl-cdn.alpinelinux.org/alpine/v3.8/releases/x86_64/alpine-standard-3.8.1-x86_64.iso"],
-      "iso_checksum": "70d231a2dc1366d0a69810b3ea8d4d52a6c23503c4db6db1d2dc9815e2bc90e4",
+      "iso_urls": ["isos/alpine-virt-3.8.2-x86_64.iso",
+                   "http://dl-cdn.alpinelinux.org/alpine/v3.8/releases/x86_64/alpine-virt-3.8.2-x86_64.iso"],
+      "iso_checksum": "77a609dd710ba0d3b0806a314f5c4ef1718ce140b522bf7c7ca081eba664db2c",
       "iso_checksum_type": "sha256",
 
       "communicator": "ssh",
