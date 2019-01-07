@@ -33,5 +33,9 @@ vagrant up
 
 ## Changes
 
+* v3.8.2
+   * Updated to Alpine v3.8.2
+   * Reduced image size by using "virt" installation media.
+
 * v3.8.1
    * Initial -- Alpine v3.8.1

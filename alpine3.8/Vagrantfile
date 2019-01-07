@@ -4,7 +4,7 @@
 Vagrant.configure(2) do |config|
     config.vm.define 'alpine37' do |alpine|
         alpine.vm.box = 'maier/alpine-3.8-x86_64'
-        alpine.vm.box_version = '3.8.0'
+        alpine.vm.box_version = '3.8.2'
         alpine.vm.provider 'virtualbox' do |vb|
             vb.name = 'alpine3.8'
             vb.cpus = 1
