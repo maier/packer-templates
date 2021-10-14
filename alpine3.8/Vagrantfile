@@ -2,7 +2,7 @@
 # vi: set ft=ruby :
 
 Vagrant.configure(2) do |config|
-    config.vm.define 'alpine37' do |alpine|
+    config.vm.define 'alpine38' do |alpine|
         alpine.vm.box = 'maier/alpine-3.8-x86_64'
         alpine.vm.box_version = '3.8.2'
         alpine.vm.provider 'virtualbox' do |vb|
